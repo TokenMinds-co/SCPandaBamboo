@@ -1,0 +1,36 @@
+{
+  "name": "PPPals",
+  "version": "1.0.0",
+  "description": "PPPals Local setup",
+  "scripts": {
+    "run:local": "npx hardhat node"
+  },
+  "dependencies": {
+    "@alch/alchemy-web3": "^1.1.5",
+    "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@openzeppelin/contracts": "^4.2.0",
+    "@pinata/sdk": "^1.1.23",
+    "axios": "^0.23.0",
+    "chai": "^4.3.4",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.4.1",
+    "form-data": "^4.0.0",
+    "fs": "^0.0.1-security",
+    "hardhat": "^2.4.1",
+    "ipfs-http-client": "50.1.2"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-etherscan": "^2.1.6",
+    "autoprefixer": "^10.2.6",
+    "dotenv": "^10.0.0",
+    "eslint": "7.29.0",
+    "eslint-config-next": "11.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TokenMinds-co/PPPals.git"
+  },
+  "author": "jenson.collins@hotmail.com",
+  "license": "No License"
+}

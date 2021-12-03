@@ -1,14 +1,21 @@
+/**
+ *Submitted for verification at Etherscan.io on 2021-11-15
+ */
+
 // SPDX-License-Identifier: NONE
 pragma solidity 0.6.12;
-
-
 
 // Part: PandaNFT
 
 interface PandaNFT {
-	function balanceOf(address _user) external view returns(uint256);
-	function ownerOf(uint256 tokenId) external view returns (address owner);
-	function tokenOfOwnerByIndex(address owner, uint256 index) external view returns (uint256 tokenId);
+    function balanceOf(address _user) external view returns (uint256);
+
+    function ownerOf(uint256 tokenId) external view returns (address owner);
+
+    function tokenOfOwnerByIndex(address owner, uint256 index)
+        external
+        view
+        returns (uint256 tokenId);
 }
 
 // Part: OpenZeppelin/openzeppelin-contracts@3.2.0/Address
@@ -41,7 +48,9 @@ library Address {
 
         uint256 size;
         // solhint-disable-next-line no-inline-assembly
-        assembly { size := extcodesize(account) }
+        assembly {
+            size := extcodesize(account)
+        }
         return size > 0;
     }
 
@@ -62,11 +71,17 @@ library Address {
      * https://solidity.readthedocs.io/en/v0.5.11/security-considerations.html#use-the-checks-effects-interactions-pattern[checks-effects-interactions pattern].
      */
     function sendValue(address payable recipient, uint256 amount) internal {
-        require(address(this).balance >= amount, "Address: insufficient balance");
+        require(
+            address(this).balance >= amount,
+            "Address: insufficient balance"
+        );
 
         // solhint-disable-next-line avoid-low-level-calls, avoid-call-value
-        (bool success, ) = recipient.call{ value: amount }("");
-        require(success, "Address: unable to send value, recipient may have reverted");
+        (bool success, ) = recipient.call{value: amount}("");
+        require(
+            success,
+            "Address: unable to send value, recipient may have reverted"
+        );
     }
 
     /**
@@ -87,8 +102,11 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCall(address target, bytes memory data) internal returns (bytes memory) {
-      return functionCall(target, data, "Address: low-level call failed");
+    function functionCall(address target, bytes memory data)
+        internal
+        returns (bytes memory)
+    {
+        return functionCall(target, data, "Address: low-level call failed");
     }
 
     /**
@@ -97,7 +115,11 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCall(address target, bytes memory data, string memory errorMessage) internal returns (bytes memory) {
+    function functionCall(
+        address target,
+        bytes memory data,
+        string memory errorMessage
+    ) internal returns (bytes memory) {
         return _functionCallWithValue(target, data, 0, errorMessage);
     }
 
@@ -112,8 +134,18 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCallWithValue(address target, bytes memory data, uint256 value) internal returns (bytes memory) {
-        return functionCallWithValue(target, data, value, "Address: low-level call with value failed");
+    function functionCallWithValue(
+        address target,
+        bytes memory data,
+        uint256 value
+    ) internal returns (bytes memory) {
+        return
+            functionCallWithValue(
+                target,
+                data,
+                value,
+                "Address: low-level call with value failed"
+            );
     }
 
     /**
@@ -122,16 +154,31 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCallWithValue(address target, bytes memory data, uint256 value, string memory errorMessage) internal returns (bytes memory) {
-        require(address(this).balance >= value, "Address: insufficient balance for call");
+    function functionCallWithValue(
+        address target,
+        bytes memory data,
+        uint256 value,
+        string memory errorMessage
+    ) internal returns (bytes memory) {
+        require(
+            address(this).balance >= value,
+            "Address: insufficient balance for call"
+        );
         return _functionCallWithValue(target, data, value, errorMessage);
     }
 
-    function _functionCallWithValue(address target, bytes memory data, uint256 weiValue, string memory errorMessage) private returns (bytes memory) {
+    function _functionCallWithValue(
+        address target,
+        bytes memory data,
+        uint256 weiValue,
+        string memory errorMessage
+    ) private returns (bytes memory) {
         require(isContract(target), "Address: call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
-        (bool success, bytes memory returndata) = target.call{ value: weiValue }(data);
+        (bool success, bytes memory returndata) = target.call{value: weiValue}(
+            data
+        );
         if (success) {
             return returndata;
         } else {
@@ -197,7 +244,9 @@ interface IERC20 {
      *
      * Emits a {Transfer} event.
      */
-    function transfer(address recipient, uint256 amount) external returns (bool);
+    function transfer(address recipient, uint256 amount)
+        external
+        returns (bool);
 
     /**
      * @dev Returns the remaining number of tokens that `spender` will be
@@ -206,7 +255,10 @@ interface IERC20 {
      *
      * This value changes when {approve} or {transferFrom} are called.
      */
-    function allowance(address owner, address spender) external view returns (uint256);
+    function allowance(address owner, address spender)
+        external
+        view
+        returns (uint256);
 
     /**
      * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.
@@ -233,7 +285,11 @@ interface IERC20 {
      *
      * Emits a {Transfer} event.
      */
-    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
 
     /**
      * @dev Emitted when `value` tokens are moved from one account (`from`) to
@@ -247,7 +303,11 @@ interface IERC20 {
      * @dev Emitted when the allowance of a `spender` for an `owner` is set by
      * a call to {approve}. `value` is the new allowance.
      */
-    event Approval(address indexed owner, address indexed spender, uint256 value);
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 value
+    );
 }
 
 // Part: OpenZeppelin/openzeppelin-contracts@3.2.0/SafeMath
@@ -307,7 +367,11 @@ library SafeMath {
      *
      * - Subtraction cannot overflow.
      */
-    function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+    function sub(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
         require(b <= a, errorMessage);
         uint256 c = a - b;
 
@@ -366,7 +430,11 @@ library SafeMath {
      *
      * - The divisor cannot be zero.
      */
-    function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+    function div(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
         require(b > 0, errorMessage);
         uint256 c = a / b;
         // assert(a == b * c + a % b); // There is no case in which this doesn't hold
@@ -402,7 +470,11 @@ library SafeMath {
      *
      * - The divisor cannot be zero.
      */
-    function mod(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+    function mod(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
         require(b != 0, errorMessage);
         return a % b;
     }
@@ -438,9 +510,9 @@ contract ERC20 is Context, IERC20 {
     using SafeMath for uint256;
     using Address for address;
 
-    mapping (address => uint256) private _balances;
+    mapping(address => uint256) private _balances;
 
-    mapping (address => mapping (address => uint256)) private _allowances;
+    mapping(address => mapping(address => uint256)) private _allowances;
 
     uint256 private _totalSupply;
 
@@ -457,7 +529,7 @@ contract ERC20 is Context, IERC20 {
      * All three of these values are immutable: they can only be set once during
      * construction.
      */
-    constructor (string memory name, string memory symbol) public {
+    constructor(string memory name, string memory symbol) public {
         _name = name;
         _symbol = symbol;
         _decimals = 18;
@@ -517,7 +589,12 @@ contract ERC20 is Context, IERC20 {
      * - `recipient` cannot be the zero address.
      * - the caller must have a balance of at least `amount`.
      */
-    function transfer(address recipient, uint256 amount) public virtual override returns (bool) {
+    function transfer(address recipient, uint256 amount)
+        public
+        virtual
+        override
+        returns (bool)
+    {
         _transfer(_msgSender(), recipient, amount);
         return true;
     }
@@ -525,7 +602,13 @@ contract ERC20 is Context, IERC20 {
     /**
      * @dev See {IERC20-allowance}.
      */
-    function allowance(address owner, address spender) public view virtual override returns (uint256) {
+    function allowance(address owner, address spender)
+        public
+        view
+        virtual
+        override
+        returns (uint256)
+    {
         return _allowances[owner][spender];
     }
 
@@ -536,7 +619,12 @@ contract ERC20 is Context, IERC20 {
      *
      * - `spender` cannot be the zero address.
      */
-    function approve(address spender, uint256 amount) public virtual override returns (bool) {
+    function approve(address spender, uint256 amount)
+        public
+        virtual
+        override
+        returns (bool)
+    {
         _approve(_msgSender(), spender, amount);
         return true;
     }
@@ -553,9 +641,20 @@ contract ERC20 is Context, IERC20 {
      * - the caller must have allowance for ``sender``'s tokens of at least
      * `amount`.
      */
-    function transferFrom(address sender, address recipient, uint256 amount) public virtual override returns (bool) {
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) public virtual override returns (bool) {
         _transfer(sender, recipient, amount);
-        _approve(sender, _msgSender(), _allowances[sender][_msgSender()].sub(amount, "ERC20: transfer amount exceeds allowance"));
+        _approve(
+            sender,
+            _msgSender(),
+            _allowances[sender][_msgSender()].sub(
+                amount,
+                "ERC20: transfer amount exceeds allowance"
+            )
+        );
         return true;
     }
 
@@ -571,8 +670,16 @@ contract ERC20 is Context, IERC20 {
      *
      * - `spender` cannot be the zero address.
      */
-    function increaseAllowance(address spender, uint256 addedValue) public virtual returns (bool) {
-        _approve(_msgSender(), spender, _allowances[_msgSender()][spender].add(addedValue));
+    function increaseAllowance(address spender, uint256 addedValue)
+        public
+        virtual
+        returns (bool)
+    {
+        _approve(
+            _msgSender(),
+            spender,
+            _allowances[_msgSender()][spender].add(addedValue)
+        );
         return true;
     }
 
@@ -590,8 +697,19 @@ contract ERC20 is Context, IERC20 {
      * - `spender` must have allowance for the caller of at least
      * `subtractedValue`.
      */
-    function decreaseAllowance(address spender, uint256 subtractedValue) public virtual returns (bool) {
-        _approve(_msgSender(), spender, _allowances[_msgSender()][spender].sub(subtractedValue, "ERC20: decreased allowance below zero"));
+    function decreaseAllowance(address spender, uint256 subtractedValue)
+        public
+        virtual
+        returns (bool)
+    {
+        _approve(
+            _msgSender(),
+            spender,
+            _allowances[_msgSender()][spender].sub(
+                subtractedValue,
+                "ERC20: decreased allowance below zero"
+            )
+        );
         return true;
     }
 
@@ -609,13 +727,20 @@ contract ERC20 is Context, IERC20 {
      * - `recipient` cannot be the zero address.
      * - `sender` must have a balance of at least `amount`.
      */
-    function _transfer(address sender, address recipient, uint256 amount) internal virtual {
+    function _transfer(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) internal virtual {
         require(sender != address(0), "ERC20: transfer from the zero address");
         require(recipient != address(0), "ERC20: transfer to the zero address");
 
         _beforeTokenTransfer(sender, recipient, amount);
 
-        _balances[sender] = _balances[sender].sub(amount, "ERC20: transfer amount exceeds balance");
+        _balances[sender] = _balances[sender].sub(
+            amount,
+            "ERC20: transfer amount exceeds balance"
+        );
         _balances[recipient] = _balances[recipient].add(amount);
         emit Transfer(sender, recipient, amount);
     }
@@ -655,7 +780,10 @@ contract ERC20 is Context, IERC20 {
 
         _beforeTokenTransfer(account, address(0), amount);
 
-        _balances[account] = _balances[account].sub(amount, "ERC20: burn amount exceeds balance");
+        _balances[account] = _balances[account].sub(
+            amount,
+            "ERC20: burn amount exceeds balance"
+        );
         _totalSupply = _totalSupply.sub(amount);
         emit Transfer(account, address(0), amount);
     }
@@ -673,7 +801,11 @@ contract ERC20 is Context, IERC20 {
      * - `owner` cannot be the zero address.
      * - `spender` cannot be the zero address.
      */
-    function _approve(address owner, address spender, uint256 amount) internal virtual {
+    function _approve(
+        address owner,
+        address spender,
+        uint256 amount
+    ) internal virtual {
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
 
@@ -706,184 +838,167 @@ contract ERC20 is Context, IERC20 {
      *
      * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].
      */
-    function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual { }
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal virtual {}
 }
-
 
 /**
  * @title Ownable
  * @dev Ownable has an owner address to simplify "user permissions".
  */
 contract Ownable {
-  address public owner;
+    address public owner;
 
-  /**
-   * Ownable
-   * @dev Ownable constructor sets the `owner` of the contract to sender
-   */
-  constructor() public {
-    owner = 0xEDA7c5543585900b129887Ea1f3596B255275554;//msg.sender;
-  }
+    /**
+     * Ownable
+     * @dev Ownable constructor sets the `owner` of the contract to sender
+     */
+    constructor() public {
+        owner = msg.sender; //0xEDA7c5543585900b129887Ea1f3596B255275554
+    }
 
-  /**
-   * ownerOnly
-   * @dev Throws an error if called by any account other than the owner.
-   */
-  modifier onlyOwner() {
-    require(msg.sender == owner);
-    _;
-  }
+    /**
+     * ownerOnly
+     * @dev Throws an error if called by any account other than the owner.
+     */
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
 
-  /**
-   * transferOwnership
-   * @dev Allows the current owner to transfer control of the contract to a newOwner.
-   * @param newOwner The address to transfer ownership to.
-   */
-  function transferOwnership(address newOwner) public onlyOwner {
-    require(newOwner != address(0));
-    owner = newOwner;
-  }
+    /**
+     * transferOwnership
+     * @dev Allows the current owner to transfer control of the contract to a newOwner.
+     * @param newOwner The address to transfer ownership to.
+     */
+    function transferOwnership(address newOwner) public onlyOwner {
+        require(newOwner != address(0));
+        owner = newOwner;
+    }
 }
 
 // File: Bamboo.sol
 
 contract Bamboo is ERC20("Bamboo Token", "$BAMBOO"), Ownable {
-	using SafeMath for uint256;
-    
-    uint256 public claimUnitPerPeriod = 10;
-    uint256 public claimPeriod = 1 days;
-	uint256 public claimEndTime = now + 365 * 10 days;
-    
-	mapping(uint256 => uint256) public lastClaimedTime;
-	mapping(uint256 => address) public lastClaimer;
-	mapping(address => bool) public locked;
-	
+    using SafeMath for uint256;
 
-	PandaNFT public  PandaNFTContract;
+    uint256 public claimUnitPerPeriod = 10 * 10**18;
+    uint256 public claimPeriod = 10 minutes;
+    uint256 public claimEndTime = now + 365 * 10 days;
+    uint256 public contractCreateTime;
+    mapping(address => uint256) public lastClaimedTime;
+    mapping(address => bool) public claimStarted;
+    mapping(address => bool) public locked;
 
-	event ClaimedReward(address indexed user, uint256 tokenId, uint256 reward);
-    
-    
-	constructor(address _panda_contract_address) public{
-		PandaNFTContract = PandaNFT(_panda_contract_address);
-	}
-    
-    function setPandaContractAddress(address _panda_contract_address) public onlyOwner{
+    PandaNFT public PandaNFTContract;
+
+    event ClaimedReward(address indexed user, uint256 reward);
+
+    constructor(address _panda_contract_address) public {
+        PandaNFTContract = PandaNFT(_panda_contract_address);
+        contractCreateTime = now;
+    }
+
+    function setPandaContractAddress(address _panda_contract_address)
+        public
+        onlyOwner
+    {
         PandaNFTContract = PandaNFT(_panda_contract_address);
     }
-    
-    function setClaimEndTime(uint256 _time) public onlyOwner{
-        claimEndTime = _time;    
+
+    function setClaimEndTime(uint256 _time) public onlyOwner {
+        claimEndTime = _time;
     }
-    
-    function setClaimPeriod(uint256 _period) public onlyOwner{
+
+    function setClaimPeriod(uint256 _period) public onlyOwner {
         claimPeriod = _period;
     }
-    
+
     function setClaimUnitPerPeriod(uint256 _amount) public onlyOwner {
         claimUnitPerPeriod = _amount;
     }
-    
+
     function _checkHolder(address _holder) internal view returns (bool) {
-        if (PandaNFTContract.balanceOf(_holder) > 0)
-            return true;
-        else 
-            return false;
+        if (PandaNFTContract.balanceOf(_holder) > 0) return true;
+        else return false;
     }
-    
-    // function _checkOwnerOfToken(address _holder, uint256 _tokenId) internal view returns (bool) {
-    //     if (PandaNFTContract.ownerOf(_tokenId) == _holder)
-    //         return true;
-    //     else 
-    //         return false;
-    // }
-    
-    function _checkClaimTime(uint256 _tokenId) internal view returns (bool) {
-        if (lastClaimedTime[_tokenId] + claimPeriod <= now ) {
-            return true;
+
+    function _claimReward(address _claimer) internal returns (uint256) {
+        uint256 claimAmount = claimUnitPerPeriod;
+        uint256 tokenCount = PandaNFTContract.balanceOf(_claimer);
+        if (claimStarted[_claimer]) {
+            claimAmount = now
+                .sub(lastClaimedTime[_claimer])
+                .mul(claimUnitPerPeriod)
+                .div(claimPeriod)
+                .mul(tokenCount);
         } else {
-            return false;
-        }        
-    }
-    
-    function _getAccmulatedDays(uint256 _tokenId, address _holder) internal view returns (uint256) {
-         if (lastClaimer[_tokenId] == _holder ) {
-             return now.sub(lastClaimedTime[_tokenId]).div(claimPeriod);  
-         } else {
-             return 1;
-         } 
-    }
-    
-    function _claimReward(uint256 _tokenId, address _holder) internal {
-        if (_checkClaimTime(_tokenId)){
-            uint256 howManyDaysAccumulated = _getAccmulatedDays(_tokenId, _holder);
-            uint256 claimAmount = howManyDaysAccumulated * claimUnitPerPeriod * (uint(10)**decimals());
-            _mint(_holder, claimAmount);
-            lastClaimedTime[_tokenId] = now;
-            lastClaimer[_tokenId] = _holder;
-            emit ClaimedReward(_holder, _tokenId, claimAmount);
+            claimAmount = now
+                .sub(contractCreateTime)
+                .mul(claimUnitPerPeriod)
+                .div(claimPeriod)
+                .mul(tokenCount);
+            claimStarted[_claimer] = true;
         }
+        lastClaimedTime[_claimer] = now;
+        return claimAmount;
     }
-    
+
     function _lock(address _holder) internal {
-       locked[_holder] = true;   
+        locked[_holder] = true;
     }
-    
+
     function _unlock(address _holder) internal {
-        locked[_holder] = false;  
+        locked[_holder] = false;
     }
-    
-    function _isLocked(address _holder) internal view returns(bool) {
+
+    function _isLocked(address _holder) internal view returns (bool) {
         if (locked[_holder] == true) return true;
         else return false;
     }
-    
+
     function claim() external {
-       require(now <= claimEndTime, "Claim period is ended!");    
-       require(_checkHolder(msg.sender), "You have not a holder");    
-       require(_isLocked(msg.sender) == false, "Risky For Rentrance attack!");    
-       _lock(msg.sender);
-       uint256 tokenCount = PandaNFTContract.balanceOf(msg.sender);
-       for (uint256 i=0; i < tokenCount; i++){
-           uint256 tokenId = PandaNFTContract.tokenOfOwnerByIndex(msg.sender, i);
-           _claimReward(tokenId, msg.sender);
-       }
-       _unlock(msg.sender);
+        require(now <= claimEndTime, "Claim period is ended!");
+        require(_checkHolder(msg.sender), "You have not a holder");
+        require(_isLocked(msg.sender) == false, "Risky For Rentrance attack!");
+        _lock(msg.sender);
+        uint256 amount = _claimReward(msg.sender);
+        _mint(msg.sender, amount);
+        emit ClaimedReward(msg.sender, amount);
+        _unlock(msg.sender);
     }
-    
-    function _calcClaimableAmount(address _holder, uint256 _tokenId) internal view returns(uint256){
-         if (_checkClaimTime(_tokenId)){
-            uint256 howManyDaysAccumulated = _getAccmulatedDays(_tokenId, _holder);
-            uint256 claimAmount = howManyDaysAccumulated * claimUnitPerPeriod * (uint(10)**decimals());
-            return claimAmount;
-        } else return 0;
-    }
-    
-    function getHolderClaimableAmountForTokenId(address _holder, uint256 _tokenId) public view returns(uint256) {
-		if (now > claimEndTime) return 0;
-		if (!_checkHolder(_holder)) return 0;
-        uint amount = _calcClaimableAmount(_holder, _tokenId);
-        return amount; 
-	}
-	
-    function getHolderClaimableTotalAmount(address _holder) public view returns(uint256) {
-		if (now > claimEndTime) return 0;
-		if (!_checkHolder(_holder)) return 0;
-		uint256 tokenCount = PandaNFTContract.balanceOf(_holder);
-		uint256 claimableAmount = 0; 
-        for (uint256 i=0; i < tokenCount; i++){
-           uint256 tokenId = PandaNFTContract.tokenOfOwnerByIndex(_holder, i);
-           uint amount = _calcClaimableAmount(_holder, tokenId);
-           claimableAmount = claimableAmount.add(amount);
+
+    function calcClaimableAmount(address _claimer)
+        external
+        view
+        returns (uint256)
+    {
+        uint256 claimAmount = claimUnitPerPeriod;
+        uint256 tokenCount = PandaNFTContract.balanceOf(_claimer);
+        if (claimStarted[_claimer]) {
+            claimAmount = now
+                .sub(lastClaimedTime[_claimer])
+                .mul(claimUnitPerPeriod)
+                .div(claimPeriod)
+                .mul(tokenCount);
+        } else {
+            claimAmount = now
+                .sub(contractCreateTime)
+                .mul(claimUnitPerPeriod)
+                .div(claimPeriod)
+                .mul(tokenCount);
         }
-        return claimableAmount; 
-	}
-	
+        return claimAmount;
+    }
+
     function mint(address _to, uint256 _amount) public onlyOwner {
-		_mint(_to, _amount);
-	}
-	
+        _mint(_to, _amount);
+    }
+
     function burn(address _from, uint256 _amount) public onlyOwner {
-		_burn(_from, _amount);
-	}
+        _burn(_from, _amount);
+    }
 }

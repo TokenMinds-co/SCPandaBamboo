@@ -1,7 +1,3 @@
-/**
- *Submitted for verification at Etherscan.io on 2021-11-15
- */
-
 // SPDX-License-Identifier: NONE
 pragma solidity 0.6.12;
 
@@ -888,9 +884,8 @@ contract Bamboo is ERC20("Bamboo Token", "$BAMBOO"), Ownable {
     uint256 public claimUnitPerPeriod = 10 * 10**18;
     uint256 public claimPeriod = 10 minutes;
     uint256 public claimEndTime = now + 365 * 10 days;
-    uint256 public contractCreateTime;
+    uint256 public INITIAL_ISSUANCE = 10 * 10**18;
     mapping(address => uint256) public lastClaimedTime;
-    mapping(address => bool) public claimStarted;
     mapping(address => bool) public locked;
 
     PandaNFT public PandaNFTContract;
@@ -899,7 +894,6 @@ contract Bamboo is ERC20("Bamboo Token", "$BAMBOO"), Ownable {
 
     constructor(address _panda_contract_address) public {
         PandaNFTContract = PandaNFT(_panda_contract_address);
-        contractCreateTime = now;
     }
 
     function setPandaContractAddress(address _panda_contract_address)
@@ -907,6 +901,10 @@ contract Bamboo is ERC20("Bamboo Token", "$BAMBOO"), Ownable {
         onlyOwner
     {
         PandaNFTContract = PandaNFT(_panda_contract_address);
+    }
+
+    function setInitIssuance(uint256 _amount) public onlyOwner {
+        INITIAL_ISSUANCE = _amount;
     }
 
     function setClaimEndTime(uint256 _time) public onlyOwner {
@@ -929,19 +927,14 @@ contract Bamboo is ERC20("Bamboo Token", "$BAMBOO"), Ownable {
     function _claimReward(address _claimer) internal returns (uint256) {
         uint256 claimAmount = claimUnitPerPeriod;
         uint256 tokenCount = PandaNFTContract.balanceOf(_claimer);
-        if (claimStarted[_claimer]) {
+        if (lastClaimedTime[_claimer] > 0) {
             claimAmount = now
                 .sub(lastClaimedTime[_claimer])
                 .mul(claimUnitPerPeriod)
                 .div(claimPeriod)
                 .mul(tokenCount);
         } else {
-            claimAmount = now
-                .sub(contractCreateTime)
-                .mul(claimUnitPerPeriod)
-                .div(claimPeriod)
-                .mul(tokenCount);
-            claimStarted[_claimer] = true;
+            claimAmount = INITIAL_ISSUANCE;
         }
         lastClaimedTime[_claimer] = now;
         return claimAmount;
@@ -978,18 +971,14 @@ contract Bamboo is ERC20("Bamboo Token", "$BAMBOO"), Ownable {
     {
         uint256 claimAmount = claimUnitPerPeriod;
         uint256 tokenCount = PandaNFTContract.balanceOf(_claimer);
-        if (claimStarted[_claimer]) {
+        if (lastClaimedTime[_claimer] > 0) {
             claimAmount = now
                 .sub(lastClaimedTime[_claimer])
                 .mul(claimUnitPerPeriod)
                 .div(claimPeriod)
                 .mul(tokenCount);
         } else {
-            claimAmount = now
-                .sub(contractCreateTime)
-                .mul(claimUnitPerPeriod)
-                .div(claimPeriod)
-                .mul(tokenCount);
+            claimAmount = INITIAL_ISSUANCE;
         }
         return claimAmount;
     }

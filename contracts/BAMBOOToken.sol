@@ -934,7 +934,7 @@ contract Bamboo is ERC20("Bamboo Token", "$BAMBOO"), Ownable {
                 .div(claimPeriod)
                 .mul(tokenCount);
         } else {
-            claimAmount = INITIAL_ISSUANCE;
+            claimAmount = INITIAL_ISSUANCE.mul(tokenCount);
         }
         lastClaimedTime[_claimer] = now;
         return claimAmount;
@@ -978,7 +978,7 @@ contract Bamboo is ERC20("Bamboo Token", "$BAMBOO"), Ownable {
                 .div(claimPeriod)
                 .mul(tokenCount);
         } else {
-            claimAmount = INITIAL_ISSUANCE;
+            claimAmount = INITIAL_ISSUANCE.mul(tokenCount);
         }
         return claimAmount;
     }
